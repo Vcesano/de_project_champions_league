@@ -4,7 +4,7 @@
       "name": "goleadores_analisis",
       "displayName": "Análisis Goleadores",
       "config": {
-        "source": "proyecto_champions_league.semantica.vw_goleadores",
+        "source": "WITH agregacion_por_posicion AS (\r\n  SELECT \r\n    temporada,\r\n    posicion_jugador,\r\n    SUM(goles + asistencias) as contribucion_total_posicion\r\n  FROM proyecto_champions_league.semantica.vw_goleadores\r\n  GROUP BY temporada, posicion_jugador\r\n), con_cambio_yoy AS (\r\n  SELECT \r\n    temporada,\r\n    posicion_jugador,\r\n    contribucion_total_posicion,\r\n    LAG(contribucion_total_posicion) OVER (PARTITION BY posicion_jugador ORDER BY temporada) as contribucion_anterior,\r\n    CASE \r\n      WHEN LAG(contribucion_total_posicion) OVER (PARTITION BY posicion_jugador ORDER BY temporada) IS NOT NULL \r\n       AND LAG(contribucion_total_posicion) OVER (PARTITION BY posicion_jugador ORDER BY temporada) > 0\r\n      THEN (contribucion_total_posicion - LAG(contribucion_total_posicion) OVER (PARTITION BY posicion_jugador ORDER BY temporada)) \r\n            / LAG(contribucion_total_posicion) OVER (PARTITION BY posicion_jugador ORDER BY temporada)\r\n      ELSE NULL \r\n    END as yoy_pct_change\r\n  FROM agregacion_por_posicion\r\n) SELECT \r\n  g.temporada,\r\n  g.posicion_jugador,\r\n  g.nombre_jugador,\r\n  g.pais_jugador,\r\n  g.nombre_equipo,\r\n  g.pais_equipo,\r\n  g.ranking,\r\n  g.goles,\r\n  g.asistencias,\r\n  g.penales,\r\n  c.yoy_pct_change\r\nFROM proyecto_champions_league.semantica.vw_goleadores g LEFT JOIN con_cambio_yoy c ON g.temporada = c.temporada AND g.posicion_jugador = c.posicion_jugador\r\n",
         "measures": [
           {
             "name": "total_goles",
@@ -30,6 +30,11 @@
             "name": "total_jugadores",
             "expr": "COUNT(DISTINCT nombre_jugador)",
             "displayName": "Total Jugadores"
+          },
+          {
+            "name": "total_equipos",
+            "expr": "COUNT(DISTINCT nombre_equipo)",
+            "displayName": "Total Equipos"
           },
           {
             "name": "contribucion_total",
@@ -59,6 +64,45 @@
             "expr": "COUNT(CASE WHEN ranking <= 5 THEN 1 END)",
             "comment": "Número de veces que el jugador apareció en el Top 5 de goleadores",
             "displayName": "Apariciones en Top 5"
+          },
+          {
+            "displayName": "vs Temporada Anterior",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            },
+            "name": "cambio_yoy_pct",
+            "expr": "MAX(yoy_pct_change)",
+            "comment": "Cambio porcentual de la contribución total (goles + asistencias) por posición respecto a la temporada anterior"
+          },
+          {
+            "displayName": "Promedio Goles por Equipo",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            },
+            "name": "promedio_goles_por_equipo",
+            "expr": "SUM(goles) / COUNT(DISTINCT nombre_equipo)",
+            "comment": "Promedio de goles por equipo cuando se agrupa por país de equipo"
+          },
+          {
+            "displayName": "Promedio Goles por Jugador",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            },
+            "name": "promedio_goles_por_jugador",
+            "expr": "SUM(goles) / COUNT(DISTINCT nombre_jugador)",
+            "comment": "Promedio de goles por jugador cuando se agrupa por país de jugador"
           }
         ],
         "version": "1.1",
@@ -293,11 +337,11 @@
               }
             ],
             "spec": {
-              "version": 3,
               "frame": {
-                "title": "Distribución Goles por Posición",
+                "title": "Goles por Posición",
                 "showTitle": true
               },
+              "version": 3,
               "widgetType": "pie",
               "encodings": {
                 "angle": {
@@ -326,38 +370,23 @@
                     "mappings": [
                       {
                         "value": "Delantero",
-                        "color": {
-                          "themeColorType": "visualizationColors",
-                          "position": 6
-                        }
-                      },
-                      {
-                        "value": "Extremo",
-                        "color": {
-                          "themeColorType": "visualizationColors",
-                          "position": 9
-                        }
-                      },
-                      {
-                        "value": "Mediocampista",
-                        "color": {
-                          "themeColorType": "visualizationColors",
-                          "position": 5
-                        }
+                        "color": "#FF6F00"
                       },
                       {
                         "value": "Defensa",
-                        "color": {
-                          "themeColorType": "visualizationColors",
-                          "position": 2
-                        }
+                        "color": "#2E7D32"
+                      },
+                      {
+                        "value": "Extremo",
+                        "color": "#FDD835"
+                      },
+                      {
+                        "value": "Mediocampista",
+                        "color": "#8E24AA"
                       },
                       {
                         "value": "Portero",
-                        "color": {
-                          "themeColorType": "visualizationColors",
-                          "position": 7
-                        }
+                        "color": "#1E88E5"
                       }
                     ]
                   }
@@ -365,6 +394,9 @@
                 "label": {
                   "show": false
                 }
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -398,55 +430,11 @@
               }
             ],
             "spec": {
-              "version": 3,
               "frame": {
                 "title": "Evolución de Goles por Temporada",
                 "showTitle": true
               },
-              "mark": {
-                "colors": [
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 3
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 4
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 5
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 6
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 7
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 8
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 10
-                  }
-                ]
-              },
+              "version": 3,
               "widgetType": "bar",
               "encodings": {
                 "x": {
@@ -472,6 +460,9 @@
                 "label": {
                   "show": true
                 }
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -505,55 +496,11 @@
               }
             ],
             "spec": {
-              "version": 3,
               "frame": {
                 "showTitle": true,
-                "title": "Goles por Jugador"
+                "title": "Top 10 Goleadores"
               },
-              "mark": {
-                "colors": [
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 3
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 4
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 5
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 6
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 7
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 8
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 10
-                  }
-                ]
-              },
+              "version": 3,
               "widgetType": "bar",
               "encodings": {
                 "x": {
@@ -586,6 +533,9 @@
                 "label": {
                   "show": true
                 }
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -619,55 +569,11 @@
               }
             ],
             "spec": {
-              "version": 3,
               "frame": {
-                "title": "Goles por Equipo",
+                "title": "Top Equipos Goleadores",
                 "showTitle": true
               },
-              "mark": {
-                "colors": [
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 3
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 4
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 5
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 6
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 7
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 8
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 10
-                  }
-                ]
-              },
+              "version": 3,
               "widgetType": "bar",
               "encodings": {
                 "x": {
@@ -700,6 +606,9 @@
                 "label": {
                   "show": true
                 }
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -852,7 +761,7 @@
           "position": {
             "x": 0,
             "y": 0,
-            "width": 3,
+            "width": 2,
             "height": 2
           }
         },
@@ -902,9 +811,9 @@
             }
           },
           "position": {
-            "x": 3,
+            "x": 4,
             "y": 0,
-            "width": 3,
+            "width": 2,
             "height": 2
           }
         },
@@ -954,9 +863,9 @@
             }
           },
           "position": {
-            "x": 6,
+            "x": 8,
             "y": 0,
-            "width": 3,
+            "width": 2,
             "height": 2
           }
         },
@@ -1006,9 +915,107 @@
             }
           },
           "position": {
-            "x": 9,
+            "x": 10,
             "y": 0,
-            "width": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "cb1b6ec2",
+            "queries": [
+              {
+                "name": "dashboards/01f161d503901b0589bb7740230b84aa/datasets/01f162c271301705872b8d0acbbe69f9_pais_equipo",
+                "query": {
+                  "datasetName": "goleadores_analisis",
+                  "fields": [
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    },
+                    {
+                      "name": "pais_equipo_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "scale": {
+                "type": "categorical",
+                "sort": {
+                  "by": "natural-order"
+                }
+              },
+              "frame": {
+                "title": "Filtro País Equipo",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "pais_equipo",
+                    "queryName": "dashboards/01f161d503901b0589bb7740230b84aa/datasets/01f162c271301705872b8d0acbbe69f9_pais_equipo"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "b257b683",
+            "queries": [
+              {
+                "name": "dashboards/01f161d503901b0589bb7740230b84aa/datasets/01f162c271301705872b8d0acbbe69f9_pais_jugador",
+                "query": {
+                  "datasetName": "goleadores_analisis",
+                  "fields": [
+                    {
+                      "name": "pais_jugador",
+                      "expression": "`pais_jugador`"
+                    },
+                    {
+                      "name": "pais_jugador_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Filtro País Jugador",
+                "showTitle": true
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "pais_jugador",
+                    "queryName": "dashboards/01f161d503901b0589bb7740230b84aa/datasets/01f162c271301705872b8d0acbbe69f9_pais_jugador"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 2,
             "height": 2
           }
         }
@@ -1034,6 +1041,10 @@
                       "expression": "`posicion_jugador`"
                     },
                     {
+                      "name": "measure(cambio_yoy_pct)",
+                      "expression": "MEASURE(`cambio_yoy_pct`)"
+                    },
+                    {
                       "name": "temporada",
                       "expression": "`temporada`"
                     },
@@ -1047,11 +1058,13 @@
               }
             ],
             "spec": {
-              "version": 3,
               "frame": {
-                "title": "Contribución Total por Posición (Goles + Asistencias)",
-                "showTitle": true
+                "title": "Contribución Total por Posición",
+                "showTitle": true,
+                "showDescription": true,
+                "description": "Goles Totales + Asistencias"
               },
+              "version": 3,
               "mark": {
                 "layout": "group"
               },
@@ -1086,36 +1099,43 @@
                     "mappings": [
                       {
                         "value": "Delantero",
-                        "color": "#D66613"
+                        "color": "#FF6F00"
                       },
                       {
                         "value": "Defensa",
-                        "color": {
-                          "themeColorType": "visualizationColors",
-                          "position": 8
-                        }
+                        "color": "#2E7D32"
                       },
                       {
                         "value": "Extremo",
-                        "color": {
-                          "themeColorType": "visualizationColors",
-                          "position": 9
-                        }
+                        "color": "#FDD835"
                       },
                       {
                         "value": "Mediocampista",
-                        "color": {
-                          "themeColorType": "visualizationColors",
-                          "position": 5
-                        }
+                        "color": "#8E24AA"
                       },
                       {
                         "value": "Portero",
-                        "color": "#59A376"
+                        "color": "#1E88E5"
                       }
                     ]
                   }
-                }
+                },
+                "extra": [
+                  {
+                    "fieldName": "measure(cambio_yoy_pct)",
+                    "format": {
+                      "type": "number-percent",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 1
+                      }
+                    },
+                    "displayName": "vs Temporada Anterior"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -1156,50 +1176,9 @@
             "spec": {
               "version": 3,
               "frame": {
-                "title": "Cantidad de Jugadores Top 5 por País de Equipo",
+                "title": "Jugadores Top 5 por País de Equipo",
                 "description": "Países con más jugadores en el Top 5 de goleadores",
                 "showTitle": true
-              },
-              "mark": {
-                "colors": [
-                  "#0B3D91",
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 3
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 4
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 5
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 6
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 7
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 8
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 10
-                  }
-                ]
               },
               "widgetType": "bar",
               "encodings": {
@@ -1229,6 +1208,9 @@
                 "label": {
                   "show": true
                 }
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -1269,50 +1251,9 @@
             "spec": {
               "version": 3,
               "frame": {
-                "title": "Cantidad de Jugadores Top 5 por País de Jugador",
+                "title": "Jugadores Top 5 por País de Jugador",
                 "description": "Nacionalidades con más jugadores en el Top 5 de goleadores",
                 "showTitle": true
-              },
-              "mark": {
-                "colors": [
-                  "#D4AF37",
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 3
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 4
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 5
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 6
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 7
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 8
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 10
-                  }
-                ]
               },
               "widgetType": "bar",
               "encodings": {
@@ -1342,6 +1283,9 @@
                 "label": {
                   "show": true
                 }
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -1386,50 +1330,6 @@
                 "description": "Equipos que concentran la mayor cantidad de goleadores Top 5 a lo largo de las temporadas",
                 "showTitle": true
               },
-              "mark": {
-                "colors": [
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 3
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 4
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 5
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 6
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 7
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 8
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 10
-                  }
-                ]
-              },
               "widgetType": "bar",
               "encodings": {
                 "x": {
@@ -1462,6 +1362,9 @@
                 "label": {
                   "show": true
                 }
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -1481,6 +1384,10 @@
                 "query": {
                   "datasetName": "goleadores_analisis",
                   "fields": [
+                    {
+                      "name": "measure(apariciones_top5)",
+                      "expression": "MEASURE(`apariciones_top5`)"
+                    },
                     {
                       "name": "measure(puntos_ranking)",
                       "expression": "MEASURE(`puntos_ranking`)"
@@ -1503,52 +1410,9 @@
               "version": 3,
               "frame": {
                 "title": "Jugadores Más Consistentes en Top 5",
-                "description": "Jugadores con mayor puntaje ponderado en el Top 5 (Rank 1=5pts, Rank 2=4pts, Rank 3=3pts, Rank 4=2pts, Rank 5=1pt)",
-                "showTitle": true
-              },
-              "mark": {
-                "colors": [
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 3
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 4
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 5
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 6
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 7
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 8
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 10
-                  }
-                ]
+                "description": "Rank 1 = 5 pts | Rank 2 = 4 pts | Rank 3 = 3 pts | Rank 4 = 2 pts | Rank 5 = 1 pt",
+                "showTitle": true,
+                "showDescription": true
               },
               "widgetType": "bar",
               "encodings": {
@@ -1573,7 +1437,16 @@
                       "by": "x-reversed"
                     }
                   }
-                }
+                },
+                "extra": [
+                  {
+                    "fieldName": "measure(apariciones_top5)",
+                    "displayName": "Apariciones en Top 5"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -1594,8 +1467,16 @@
                   "datasetName": "goleadores_analisis",
                   "fields": [
                     {
+                      "name": "measure(total_equipos)",
+                      "expression": "MEASURE(`total_equipos`)"
+                    },
+                    {
                       "name": "measure(total_goles)",
                       "expression": "MEASURE(`total_goles`)"
+                    },
+                    {
+                      "name": "measure(promedio_goles_por_equipo)",
+                      "expression": "MEASURE(`promedio_goles_por_equipo`)"
                     },
                     {
                       "name": "pais_equipo",
@@ -1609,13 +1490,15 @@
             "spec": {
               "version": 3,
               "frame": {
-                "title": "Goles por País de Equipo",
-                "showTitle": true
+                "title": "Promedio Goles por País de Equipo",
+                "description": "(Total Goles / Número de Equipos)",
+                "showTitle": true,
+                "showDescription": true
               },
               "widgetType": "bar",
               "encodings": {
                 "x": {
-                  "fieldName": "measure(total_goles)",
+                  "fieldName": "measure(promedio_goles_por_equipo)",
                   "axis": {
                     "hideTitle": true,
                     "hideLabels": true,
@@ -1644,7 +1527,20 @@
                 },
                 "label": {
                   "show": true
-                }
+                },
+                "extra": [
+                  {
+                    "fieldName": "measure(total_equipos)",
+                    "displayName": "Número de Equipos"
+                  },
+                  {
+                    "fieldName": "measure(total_goles)",
+                    "displayName": "Total Goles del País"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -1665,8 +1561,16 @@
                   "datasetName": "goleadores_analisis",
                   "fields": [
                     {
+                      "name": "measure(total_jugadores)",
+                      "expression": "MEASURE(`total_jugadores`)"
+                    },
+                    {
                       "name": "measure(total_goles)",
                       "expression": "MEASURE(`total_goles`)"
+                    },
+                    {
+                      "name": "measure(promedio_goles_por_jugador)",
+                      "expression": "MEASURE(`promedio_goles_por_jugador`)"
                     },
                     {
                       "name": "pais_jugador",
@@ -1680,57 +1584,15 @@
             "spec": {
               "version": 3,
               "frame": {
-                "title": "Goles por País de Jugador",
-                "showTitle": true
-              },
-              "mark": {
-                "colors": [
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 2
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 3
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 4
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 5
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 6
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 7
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 8
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 9
-                  },
-                  {
-                    "themeColorType": "visualizationColors",
-                    "position": 10
-                  }
-                ]
+                "title": "Promedio Goles por País de Jugador",
+                "description": "(Total Goles / Número de Jugadores)",
+                "showTitle": true,
+                "showDescription": true
               },
               "widgetType": "bar",
               "encodings": {
                 "x": {
-                  "fieldName": "measure(total_goles)",
+                  "fieldName": "measure(promedio_goles_por_jugador)",
                   "axis": {
                     "hideTitle": true,
                     "hideLabels": true,
@@ -1759,7 +1621,20 @@
                 },
                 "label": {
                   "show": true
-                }
+                },
+                "extra": [
+                  {
+                    "fieldName": "measure(total_jugadores)",
+                    "displayName": "Número de Jugadores"
+                  },
+                  {
+                    "fieldName": "measure(total_goles)",
+                    "displayName": "Total Goles del País"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -1784,34 +1659,86 @@
   "uiSettings": {
     "theme": {
       "canvasBackgroundColor": {
-        "light": "#FAFAFB",
-        "dark": "#1F272D"
+        "light": "#F5F5F5",
+        "dark": "#13161A"
       },
       "widgetBackgroundColor": {
         "light": "#FFFFFF",
-        "dark": "#11171C"
+        "dark": "#1B1E22"
       },
       "fontColor": {
-        "light": "#11171C",
-        "dark": "#E8ECF0"
+        "light": "#1F272D",
+        "dark": "#FFFFFF"
       },
       "selectionColor": {
-        "light": "#2272B4",
-        "dark": "#8ACAFF"
+        "light": "#00B0FF",
+        "dark": "#40C4FF"
       },
       "visualizationColors": [
-        "#0B3D91",
-        "#D4AF37",
-        "#1DB954",
-        "#F5C518",
-        "#E53935",
-        "#FF6D00",
-        "#99DDB4",
-        "#F5C518",
-        "#1565C0",
-        "#001B4E"
+        "#1E88E5",
+        "#FF6F00",
+        "#2E7D32",
+        "#FDD835",
+        "#8E24AA",
+        "#C62828",
+        "#00897B",
+        "#5E35B1",
+        "#C0CA33",
+        "#6D4C41"
       ],
-      "widgetHeaderAlignment": "LEFT"
+      "widgetHeaderAlignment": "LEFT",
+      "fontFamily": "Arial",
+      "widgetCornerRadius": 8,
+      "widgetShadow": 10,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Arial",
+          "fontColor": {
+            "light": "#1F272D",
+            "dark": "#FFFFFF"
+          },
+          "fontSize": 13,
+          "fontWeight": 400
+        },
+        "widgetTitle": {
+          "fontFamily": "Arial",
+          "textCase": "TEXT_CASE_UNSPECIFIED",
+          "fontColor": {
+            "light": "#1F272D",
+            "dark": "#FFFFFF"
+          },
+          "fontSize": 16,
+          "fontWeight": 700
+        },
+        "widgetDescription": {
+          "fontFamily": "Arial",
+          "fontColor": {
+            "light": "#5F6368",
+            "dark": "#B0B0B0"
+          },
+          "fontSize": 12,
+          "fontWeight": 400
+        },
+        "fieldTitle": {
+          "fontFamily": "Arial",
+          "textCase": "TEXT_CASE_UPPERCASE",
+          "fontColor": {
+            "light": "#1F272D",
+            "dark": "#FFFFFF"
+          },
+          "fontSize": 12,
+          "fontWeight": 600
+        },
+        "fieldValue": {
+          "fontFamily": "Arial",
+          "fontColor": {
+            "light": "#1F272D",
+            "dark": "#FFFFFF"
+          },
+          "fontSize": 14,
+          "fontWeight": 500
+        }
+      }
     },
     "applyModeEnabled": false
   }
