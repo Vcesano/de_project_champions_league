@@ -1,0 +1,3621 @@
+{
+  "datasets": [
+    {
+      "name": "posiciones_2024_2025",
+      "displayName": "Posiciones 2024-2025",
+      "config": {
+        "source": "proyecto_champions_league.semantica.vw_posiciones",
+        "measures": [
+          {
+            "name": "total_equipos",
+            "expr": "COUNT(DISTINCT nombre_equipo)",
+            "displayName": "Total Equipos"
+          },
+          {
+            "name": "total_partidos",
+            "expr": "SUM(jugados)",
+            "displayName": "Total Partidos"
+          },
+          {
+            "name": "total_victorias",
+            "expr": "SUM(ganados)",
+            "displayName": "Total Victorias"
+          },
+          {
+            "name": "total_empates",
+            "expr": "SUM(empatados)",
+            "displayName": "Total Empates"
+          },
+          {
+            "name": "total_derrotas",
+            "expr": "SUM(perdidos)",
+            "displayName": "Total Derrotas"
+          },
+          {
+            "name": "total_goles_favor",
+            "expr": "SUM(goles_favor)",
+            "displayName": "Total Goles a Favor"
+          },
+          {
+            "name": "total_goles_contra",
+            "expr": "SUM(goles_contra)",
+            "displayName": "Total Goles en Contra"
+          },
+          {
+            "name": "diferencia_goles",
+            "expr": "SUM(diferencia)",
+            "displayName": "Diferencia de Goles"
+          },
+          {
+            "name": "total_puntos",
+            "expr": "SUM(puntos)",
+            "displayName": "Total Puntos"
+          },
+          {
+            "name": "porcentaje_derrotas",
+            "expr": "SUM(perdidos) / SUM(jugados)",
+            "displayName": "Porcentaje Derrotas",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            }
+          },
+          {
+            "name": "porcentaje_victorias",
+            "expr": "SUM(ganados) / SUM(jugados)",
+            "displayName": "Porcentaje Victorias",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            }
+          },
+          {
+            "name": "porcentaje_empates",
+            "expr": "SUM(empatados) / SUM(jugados)",
+            "displayName": "Porcentaje Empates",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            }
+          },
+          {
+            "displayName": "GF por Partido",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            },
+            "name": "goles_favor_por_partido",
+            "expr": "SUM(goles_favor) * 1.0 / NULLIF(SUM(jugados), 0)",
+            "comment": "Promedio de goles a favor por partido jugado"
+          },
+          {
+            "displayName": "GC por Partido",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            },
+            "name": "goles_contra_por_partido",
+            "expr": "SUM(goles_contra) * 1.0 / NULLIF(SUM(jugados), 0)",
+            "comment": "Promedio de goles en contra por partido jugado"
+          },
+          {
+            "name": "ptos_promedio_por_equipo",
+            "expr": "SUM(puntos) * 1.0 / COUNT(DISTINCT nombre_equipo)",
+            "displayName": "Puntos Promedio por Equipo"
+          }
+        ],
+        "filter": "temporada IN (2024, 2025)",
+        "version": "1.1",
+        "comment": "Métricas de posiciones Champions League 2024-2025",
+        "dimensions": [
+          {
+            "name": "temporada",
+            "expr": "temporada",
+            "comment": "Año de la temporada",
+            "displayName": "Temporada"
+          },
+          {
+            "name": "nombre_equipo",
+            "expr": "nombre_equipo",
+            "comment": "Nombre del equipo",
+            "displayName": "Equipo"
+          },
+          {
+            "name": "pais_equipo",
+            "expr": "pais_equipo",
+            "comment": "País del equipo",
+            "displayName": "País"
+          },
+          {
+            "name": "posicion",
+            "expr": "posicion",
+            "comment": "Posición en la tabla",
+            "displayName": "Posición"
+          }
+        ]
+      }
+    },
+    {
+      "name": "posiciones_2023",
+      "displayName": "Posiciones 2023",
+      "config": {
+        "source": "proyecto_champions_league.semantica.vw_posiciones",
+        "measures": [
+          {
+            "name": "total_partidos",
+            "expr": "SUM(jugados)",
+            "displayName": "Total Partidos"
+          },
+          {
+            "name": "total_goles_favor",
+            "expr": "SUM(goles_favor)",
+            "displayName": "Total Goles a Favor"
+          },
+          {
+            "name": "total_goles_contra",
+            "expr": "SUM(goles_contra)",
+            "displayName": "Total Goles en Contra"
+          },
+          {
+            "name": "diferencia_goles",
+            "expr": "SUM(diferencia)",
+            "displayName": "Diferencia de Goles"
+          },
+          {
+            "name": "total_puntos",
+            "expr": "SUM(puntos)",
+            "displayName": "Total Puntos"
+          },
+          {
+            "name": "porcentaje_derrotas",
+            "expr": "SUM(perdidos) / SUM(jugados)",
+            "displayName": "Porcentaje Derrotas",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            }
+          },
+          {
+            "name": "porcentaje_victorias",
+            "expr": "SUM(ganados) / SUM(jugados)",
+            "displayName": "Porcentaje Victorias",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            }
+          },
+          {
+            "name": "porcentaje_empates",
+            "expr": "SUM(empatados) / SUM(jugados)",
+            "displayName": "Porcentaje Empates",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 1.0
+              }
+            }
+          },
+          {
+            "displayName": "GF por Partido",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            },
+            "name": "goles_favor_por_partido",
+            "expr": "SUM(goles_favor) * 1.0 / NULLIF(SUM(jugados), 0)",
+            "comment": "Promedio de goles a favor por partido jugado"
+          },
+          {
+            "name": "ptos_promedio_por_equipo",
+            "expr": "SUM(puntos) * 1.0 / COUNT(DISTINCT nombre_equipo)",
+            "displayName": "Puntos Promedio por Equipo"
+          }
+        ],
+        "filter": "temporada = 2023",
+        "version": "1.1",
+        "comment": "Métricas de posiciones Champions League 2023 (formato con grupos)",
+        "dimensions": [
+          {
+            "name": "temporada",
+            "expr": "temporada",
+            "displayName": "Temporada",
+            "comment": "Año de la temporada"
+          },
+          {
+            "name": "grupo",
+            "expr": "grupo",
+            "displayName": "Grupo",
+            "comment": "Grupo de la fase de grupos"
+          },
+          {
+            "name": "nombre_equipo",
+            "expr": "nombre_equipo",
+            "displayName": "Equipo",
+            "comment": "Nombre del equipo"
+          },
+          {
+            "name": "pais_equipo",
+            "expr": "pais_equipo",
+            "displayName": "País",
+            "comment": "País del equipo"
+          },
+          {
+            "name": "posicion",
+            "expr": "posicion",
+            "displayName": "Posición",
+            "comment": "Posición en el grupo"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ganadores_grupos_2023",
+      "displayName": "Análisis Ganadores de Grupo 2023",
+      "config": {
+        "source": "proyecto_champions_league.semantica.vw_posiciones",
+        "measures": [
+          {
+            "name": "total_puntos",
+            "expr": "SUM(puntos)",
+            "displayName": "Puntos"
+          },
+          {
+            "name": "goles_favor_por_partido",
+            "expr": "SUM(goles_favor) * 1.0 / NULLIF(SUM(jugados), 0)",
+            "displayName": "GF por Partido",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "ptos_promedio_por_equipo",
+            "expr": "SUM(puntos) * 1.0 / COUNT(DISTINCT nombre_equipo)",
+            "displayName": "Puntos Promedio por Equipo",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "victorias_prom_por_equipo",
+            "expr": "SUM(source.ganados) / COUNT(DISTINCT nombre_equipo)",
+            "displayName": "Victorias Promedio Por Equipo"
+          }
+        ],
+        "filter": "temporada = 2023 AND posicion = 1",
+        "version": "1.1",
+        "comment": "Análisis de los equipos que terminaron primeros en cada grupo 2023",
+        "dimensions": [
+          {
+            "name": "grupo",
+            "expr": "grupo",
+            "displayName": "Grupo"
+          },
+          {
+            "name": "nombre_equipo",
+            "expr": "nombre_equipo",
+            "displayName": "Equipo"
+          },
+          {
+            "name": "pais_equipo",
+            "expr": "pais_equipo",
+            "displayName": "País"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "c511095d",
+      "displayName": "2023: General",
+      "layout": [
+        {
+          "widget": {
+            "name": "c9e99c55",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(porcentaje_victorias)",
+                      "expression": "MEASURE(`porcentaje_victorias`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "% Victorias",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(porcentaje_victorias)",
+                  "style": {
+                    "color": {
+                      "themeColorType": "visualizationColors",
+                      "position": 3
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "cbcab75f",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(total_goles_favor)",
+                      "expression": "MEASURE(`total_goles_favor`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Goles",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_goles_favor)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "fb35f449",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(total_puntos)",
+                      "expression": "MEASURE(`total_puntos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Total Puntos",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_puntos)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "1035b5a6",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "grupo",
+                      "expression": "`grupo`"
+                    },
+                    {
+                      "name": "posicion",
+                      "expression": "`posicion`"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(total_puntos)",
+                      "expression": "MEASURE(`total_puntos`)"
+                    },
+                    {
+                      "name": "measure(porcentaje_victorias)",
+                      "expression": "MEASURE(`porcentaje_victorias`)"
+                    },
+                    {
+                      "name": "measure(total_goles_favor)",
+                      "expression": "MEASURE(`total_goles_favor`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "IN_RANGE(`posicion`, NULL, 4)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 10 Equipos por Puntos",
+                "showTitle": true
+              },
+              "freezeUpToColumnNumber": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "grupo"
+                  },
+                  {
+                    "fieldName": "posicion"
+                  },
+                  {
+                    "fieldName": "nombre_equipo"
+                  },
+                  {
+                    "fieldName": "measure(total_puntos)"
+                  },
+                  {
+                    "fieldName": "measure(porcentaje_victorias)"
+                  },
+                  {
+                    "fieldName": "measure(total_goles_favor)"
+                  }
+                ],
+                "rowOrder": [
+                  {
+                    "by": "column",
+                    "field": {
+                      "index": 0
+                    }
+                  },
+                  {
+                    "by": "column",
+                    "field": {
+                      "index": 1
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 17,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "fa1ca7c8",
+            "queries": [
+              {
+                "name": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa3f913c6bd07f21a2c3ad019_nombre_equipo",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "nombre_equipo_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Equipo",
+                "showDescription": false
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "nombre_equipo",
+                    "queryName": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa3f913c6bd07f21a2c3ad019_nombre_equipo"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "3071a740",
+            "queries": [
+              {
+                "name": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa3f913c6bd07f21a2c3ad019_pais_equipo",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    },
+                    {
+                      "name": "pais_equipo_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "País Equipo"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "pais_equipo",
+                    "queryName": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa3f913c6bd07f21a2c3ad019_pais_equipo"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "ab9ba364",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(porcentaje_empates)",
+                      "expression": "MEASURE(`porcentaje_empates`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "% Empates",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(porcentaje_empates)",
+                  "style": {
+                    "color": {
+                      "themeColorType": "visualizationColors",
+                      "position": 2
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "e7b59842",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(porcentaje_derrotas)",
+                      "expression": "MEASURE(`porcentaje_derrotas`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "% Derrotas",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(porcentaje_derrotas)",
+                  "style": {
+                    "color": {
+                      "themeColorType": "visualizationColors",
+                      "position": 4
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "72ad6db5",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(total_goles_favor)",
+                      "expression": "MEASURE(`total_goles_favor`)"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Goles a Favor por Equipo"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_goles_favor)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideGrid": true,
+                    "hideLabels": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "nombre_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "7236a5bd",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(total_goles_contra)",
+                      "expression": "MEASURE(`total_goles_contra`)"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Goles en Contra por Equipo"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_goles_contra)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true,
+                    "hideGrid": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "nombre_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "f84d4b4e",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(diferencia_goles)",
+                      "expression": "MEASURE(`diferencia_goles`)"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Diferencia de Goles por Equipo"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "nombre_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(diferencia_goles)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideGrid": true,
+                    "hideLabels": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "measure(diferencia_goles)",
+                  "legend": {
+                    "hideTitle": true,
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "redyellowgreen"
+                    },
+                    "reverse": false,
+                    "domain": {
+                      "mid": 0
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 11,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "2dece0d8",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(total_partidos)",
+                      "expression": "MEASURE(`total_partidos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Total Partidos",
+                "showTitle": true
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_partidos)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "66a2e4dd",
+            "queries": [
+              {
+                "name": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa3f913c6bd07f21a2c3ad019_grupo",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "grupo",
+                      "expression": "`grupo`"
+                    },
+                    {
+                      "name": "grupo_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Grupo"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "grupo",
+                    "queryName": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa3f913c6bd07f21a2c3ad019_grupo"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "73a12349",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Champions League Temporada 2023\n",
+                "\n",
+                "Formato Fase de Grupos"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "insights_2023",
+      "displayName": "2023: Insights",
+      "layout": [
+        {
+          "widget": {
+            "name": "scatter_offensive_defensive",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(total_goles_favor)",
+                      "expression": "MEASURE(`total_goles_favor`)"
+                    },
+                    {
+                      "name": "measure(total_goles_contra)",
+                      "expression": "MEASURE(`total_goles_contra`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Rendimiento Ofensivo vs Defensivo",
+                "showTitle": true,
+                "description": "Goles a favor vs Goles en contra - Análisis por cuadrantes"
+              },
+              "annotations": [
+                {
+                  "type": "horizontal-line",
+                  "encodings": {
+                    "y": {
+                      "dataValue": "8",
+                      "dataType": "INTEGER"
+                    },
+                    "label": {
+                      "value": "Defensa: 8 goles"
+                    }
+                  }
+                },
+                {
+                  "type": "vertical-line",
+                  "encodings": {
+                    "x": {
+                      "dataValue": "9",
+                      "dataType": "INTEGER"
+                    },
+                    "label": {
+                      "value": "Ataque: 9 goles"
+                    }
+                  }
+                }
+              ],
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_goles_favor)",
+                  "displayName": "Goles a Favor",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_goles_contra)",
+                  "displayName": "Goles en Contra",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "nombre_equipo",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Equipo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "scatter_puntos_eficiencia",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(goles_favor_por_partido)",
+                      "expression": "MEASURE(`goles_favor_por_partido`)"
+                    },
+                    {
+                      "name": "measure(total_puntos)",
+                      "expression": "MEASURE(`total_puntos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Eficiencia: Puntos vs Goles por Partido",
+                "showTitle": true,
+                "description": "Análisis de eficiencia ofensiva y acumulación de puntos por cuadrantes"
+              },
+              "annotations": [
+                {
+                  "type": "horizontal-line",
+                  "encodings": {
+                    "y": {
+                      "dataValue": "8",
+                      "dataType": "INTEGER"
+                    },
+                    "label": {
+                      "value": "Puntos: 8"
+                    }
+                  }
+                },
+                {
+                  "type": "vertical-line",
+                  "encodings": {
+                    "x": {
+                      "dataValue": "1.5",
+                      "dataType": "DECIMAL"
+                    },
+                    "label": {
+                      "value": "Goles/Partido: 1.5"
+                    }
+                  }
+                }
+              ],
+              "version": 3,
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(goles_favor_por_partido)",
+                  "displayName": "Goles por Partido",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_puntos)",
+                  "displayName": "Puntos Totales",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "nombre_equipo",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Equipo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "bar_competitividad_pais",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "measure(ptos_promedio_por_equipo)",
+                      "expression": "MEASURE(`ptos_promedio_por_equipo`)"
+                    },
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Competitividad por País",
+                "showTitle": true,
+                "description": "Puntos promedio por equipo de cada país",
+                "showDescription": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(ptos_promedio_por_equipo)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true,
+                    "hideGrid": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "pais_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 9,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "bar_puntos_grupo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2023",
+                  "fields": [
+                    {
+                      "name": "grupo",
+                      "expression": "`grupo`"
+                    },
+                    {
+                      "name": "measure(total_puntos)",
+                      "expression": "MEASURE(`total_puntos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "title": "Distribución de Puntos por Grupo",
+                "showTitle": true
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "grupo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_puntos)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true,
+                    "hideGrid": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "text_analisis_ganadores",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Insights Champions League 2023\n",
+                "\n",
+                "Esta sección profundiza el análisis y extrae los principales insights de la Championes League 2023"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "text_conclusiones_graficos",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Conclusiones\n",
+                "\n",
+                "* Los equipos más exitosos (Atlético Madrid, Real Madrid, Arsenal) tienen un buen equilibrio entre goles a favor y en contra demostrando que este balance es clave para el éxito en Champions League. Además traducen esa capacidad goleadora en eficiencia acumulando gran cantidad de puntos.\n",
+                "* Equipos como el Manchester United y el Galatasaray demuestran tener un tipo de juego ofensivo y goleador, pero sin embargo dan lugar a recibir muchos goles lo que se traduce en una baja eficiencia a la hora de obtener puntos.\n",
+                "* Existe una dominancia por parte de las grandes ligas europeas (España, Inglaterra, Alemania e Italia) en este tipo de torneos, demostrando diferencias estructurales en el desarrollo futbolistico frente a otros países como Bélgica o Serbia."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 12,
+            "height": 4
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "d90f2a4a",
+      "displayName": "2023: Análisis Ganadores",
+      "layout": [
+        {
+          "widget": {
+            "name": "83067a2c",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Análisis de Ganadores de Grupo 2023\n",
+                "\n",
+                "Esta sección analiza los 8 equipos que terminaron **primeros** en cada grupo de la Champions League 2023"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "890294a7",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ganadores_grupos_2023",
+                  "fields": [
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    },
+                    {
+                      "name": "measure(victorias_prom_por_equipo)",
+                      "expression": "MEASURE(`victorias_prom_por_equipo`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Partidos Ganados por País",
+                "showTitle": true,
+                "description": "Promedio por equipo",
+                "showDescription": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "pais_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(victorias_prom_por_equipo)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true,
+                    "hideGrid": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "a8f2a3f0",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ganadores_grupos_2023",
+                  "fields": [
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    },
+                    {
+                      "name": "measure(goles_favor_por_partido)",
+                      "expression": "MEASURE(`goles_favor_por_partido`)"
+                    },
+                    {
+                      "name": "measure(ptos_promedio_por_equipo)",
+                      "expression": "MEASURE(`ptos_promedio_por_equipo`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Eficiencia Ofensiva vs Desempeño de Ganadores",
+                "showTitle": true,
+                "description": "Análisis de eficiencia ofensiva vs desempeño de equipos ganadores",
+                "showDescription": true
+              },
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(goles_favor_por_partido)",
+                  "axis": {
+                    "title": "Goles a Favor por Partido"
+                  },
+                  "displayName": "Goles por Partido",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(ptos_promedio_por_equipo)",
+                  "axis": {
+                    "title": "Puntos Promedio por Equipo"
+                  },
+                  "displayName": "Puntos Promedio",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "pais_equipo",
+                  "legend": {
+                    "title": "País",
+                    "position": "top",
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "f9e59b02",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ganadores_grupos_2023",
+                  "fields": [
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(total_puntos)",
+                      "expression": "MEASURE(`total_puntos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Puntos Totales por Equipo",
+                "showTitle": true,
+                "description": "Puntos totales de cada ganador"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "nombre_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_puntos)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true,
+                    "hideGrid": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 8,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "f0073927",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Conclusiones\n",
+                "\n",
+                "* España lidera con mayor cantidad de equipos ganadores entre todos los países.\n",
+                "* Los equipos de Inglaterra tienen una mayor eficiencia a la hora de convertir goles y obtener puntos. Caso contrario es Portugal, es el 2do en convertir mayor cantidad de goles por partido y sin embargo el que menos puntaje promedio obtuvo.\n",
+                "* Manchester City y Real Madrid arrasaron la fase de grupos ganando todos los partidos disputados."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 12,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "e0d5b0b7",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ganadores_grupos_2023",
+                  "fields": [
+                    {
+                      "name": "countdistinct(nombre_equipo)",
+                      "expression": "COUNT(DISTINCT `nombre_equipo`)"
+                    },
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Distribución de Equipos Ganadores por País"
+              },
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "countdistinct(nombre_equipo)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "displayName": "Equipos Únicos"
+                },
+                "color": {
+                  "fieldName": "pais_equipo",
+                  "legend": {
+                    "position": "top",
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "angle"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "58b15b14",
+      "displayName": "2024-2025: General",
+      "layout": [
+        {
+          "widget": {
+            "name": "counter_equipos",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(porcentaje_victorias)",
+                      "expression": "MEASURE(`porcentaje_victorias`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "% Victorias",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(porcentaje_victorias)",
+                  "style": {
+                    "color": {
+                      "themeColorType": "visualizationColors",
+                      "position": 3
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_goles",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(total_goles_favor)",
+                      "expression": "MEASURE(`total_goles_favor`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Goles",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_goles_favor)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "counter_partidos",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(total_puntos)",
+                      "expression": "MEASURE(`total_puntos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Puntos",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_puntos)"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "tabla_top_equipos",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    },
+                    {
+                      "name": "posicion",
+                      "expression": "`posicion`"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(total_puntos)",
+                      "expression": "MEASURE(`total_puntos`)"
+                    },
+                    {
+                      "name": "measure(porcentaje_victorias)",
+                      "expression": "MEASURE(`porcentaje_victorias`)"
+                    },
+                    {
+                      "name": "measure(total_goles_favor)",
+                      "expression": "MEASURE(`total_goles_favor`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "IN_RANGE(`posicion`, NULL, 10)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Top 10 Equipos por Puntos",
+                "showTitle": true
+              },
+              "freezeUpToColumnNumber": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "temporada"
+                  },
+                  {
+                    "fieldName": "posicion"
+                  },
+                  {
+                    "fieldName": "nombre_equipo"
+                  },
+                  {
+                    "fieldName": "measure(total_puntos)"
+                  },
+                  {
+                    "fieldName": "measure(porcentaje_victorias)"
+                  },
+                  {
+                    "fieldName": "measure(total_goles_favor)"
+                  }
+                ],
+                "rowOrder": [
+                  {
+                    "by": "column-reversed",
+                    "field": {
+                      "index": 0
+                    }
+                  },
+                  {
+                    "by": "column",
+                    "field": {
+                      "index": 1
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 17,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "temporada",
+            "queries": [
+              {
+                "name": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa1f115c1a3134d7705e0ffe9_temporada",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    },
+                    {
+                      "name": "temporada_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Temporada"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "temporada",
+                    "queryName": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa1f115c1a3134d7705e0ffe9_temporada"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "equipo1",
+            "queries": [
+              {
+                "name": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa1f115c1a3134d7705e0ffe9_nombre_equipo",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "nombre_equipo_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Equipo"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "nombre_equipo",
+                    "queryName": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa1f115c1a3134d7705e0ffe9_nombre_equipo"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "pais-equipo",
+            "queries": [
+              {
+                "name": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa1f115c1a3134d7705e0ffe9_pais_equipo",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    },
+                    {
+                      "name": "pais_equipo_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "País Equipo"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "pais_equipo",
+                    "queryName": "dashboards/01f163892ab3156aacb96e05be3ad2cf/datasets/01f1638aa1f115c1a3134d7705e0ffe9_pais_equipo"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "807a82c7",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(porcentaje_empates)",
+                      "expression": "MEASURE(`porcentaje_empates`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "% Empates\n",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(porcentaje_empates)",
+                  "style": {
+                    "color": {
+                      "themeColorType": "visualizationColors",
+                      "position": 2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "7f2baa8a",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(porcentaje_derrotas)",
+                      "expression": "MEASURE(`porcentaje_derrotas`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "% Derrotas\n",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(porcentaje_derrotas)",
+                  "style": {
+                    "color": {
+                      "themeColorType": "visualizationColors",
+                      "position": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 10,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "goles-a-favor-por-equipo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(total_goles_favor)",
+                      "expression": "MEASURE(`total_goles_favor`)"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Goles a Favor por Equipo"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_goles_favor)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideGrid": true,
+                    "hideLabels": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "nombre_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "goles-en-contra-por-equipo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(total_goles_contra)",
+                      "expression": "MEASURE(`total_goles_contra`)"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Goles en Contra por Equipo"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_goles_contra)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true,
+                    "hideGrid": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "nombre_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "diferencia-goles-equipo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(diferencia_goles)",
+                      "expression": "MEASURE(`diferencia_goles`)"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "Diferencia de Goles por Equipo"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "nombre_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(diferencia_goles)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideGrid": true,
+                    "hideLabels": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "measure(diferencia_goles)",
+                  "legend": {
+                    "hideTitle": true,
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "redyellowgreen"
+                    },
+                    "reverse": false,
+                    "domain": {
+                      "mid": 0
+                    }
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 11,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "f91c4464",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "measure(total_partidos)",
+                      "expression": "MEASURE(`total_partidos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Partidos",
+                "showTitle": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(total_partidos)"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 3,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "dfb15a83",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Champions League Temporadas 2024 y 2025\n",
+                "\n",
+                "Formato Fase de Liga o Sistema Suizo"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "36f330da",
+      "displayName": "2024 vs 2025",
+      "layout": [
+        {
+          "widget": {
+            "name": "0bce381e",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    },
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(goles_favor_por_partido)",
+                      "expression": "MEASURE(`goles_favor_por_partido`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "facet": {
+                "type": "wrap",
+                "fieldName": "temporada",
+                "layout": {
+                  "column": {
+                    "type": "count",
+                    "value": 2
+                  },
+                  "row": {
+                    "type": "count",
+                    "value": 1
+                  }
+                },
+                "header": {
+                  "hideTitle": true
+                },
+                "scale": {
+                  "type": "categorical"
+                }
+              },
+              "version": 3,
+              "frame": {
+                "title": "Goles a Favor por Equipo",
+                "showTitle": true,
+                "showDescription": true,
+                "description": "Promedio por partido"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "nombre_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(goles_favor_por_partido)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true,
+                    "hideGrid": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "temporada",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": 2025,
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 8
+                        }
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "0135022f",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    },
+                    {
+                      "name": "measure(porcentaje_victorias)",
+                      "expression": "MEASURE(`porcentaje_victorias`)"
+                    },
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    }
+                  ],
+                  "cubeGroupingSets": {
+                    "sets": [
+                      {
+                        "fieldNames": [
+                          "temporada"
+                        ]
+                      },
+                      {
+                        "fieldNames": [
+                          "pais_equipo"
+                        ]
+                      }
+                    ]
+                  },
+                  "disaggregated": false,
+                  "orders": [
+                    {
+                      "direction": "DESC",
+                      "expression": "MEASURE(`porcentaje_victorias`)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "facet": {
+                "type": "wrap",
+                "fieldName": "temporada",
+                "header": {
+                  "hideTitle": true
+                },
+                "scale": {
+                  "type": "categorical"
+                }
+              },
+              "version": 3,
+              "frame": {
+                "title": "% Victorias por País",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(porcentaje_victorias)",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "displayName": "% Victorias",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "pais_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "displayName": "País",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "measure-reversed",
+                      "measure": {
+                        "fieldName": "measure(porcentaje_victorias)"
+                      }
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "temporada",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": 2025,
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 8
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 17,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "43c97112",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    },
+                    {
+                      "name": "measure(ptos_promedio_por_equipo)",
+                      "expression": "MEASURE(`ptos_promedio_por_equipo`)"
+                    },
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "facet": {
+                "type": "wrap",
+                "fieldName": "temporada",
+                "header": {
+                  "hideTitle": true
+                },
+                "scale": {
+                  "type": "categorical"
+                }
+              },
+              "version": 3,
+              "frame": {
+                "title": "Puntos por País",
+                "showTitle": true,
+                "showDescription": true,
+                "description": "Promedio por equipo"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(ptos_promedio_por_equipo)",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "displayName": "Puntos",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "pais_equipo",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": false
+                  },
+                  "displayName": "País",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "temporada",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": 2025,
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 8
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 17,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "dead4825",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(total_goles_favor)",
+                      "expression": "MEASURE(`total_goles_favor`)"
+                    },
+                    {
+                      "name": "measure(total_victorias)",
+                      "expression": "MEASURE(`total_victorias`)"
+                    },
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "facet": {
+                "type": "wrap",
+                "fieldName": "temporada",
+                "header": {
+                  "hideTitle": true
+                },
+                "scale": {
+                  "type": "categorical"
+                }
+              },
+              "version": 3,
+              "frame": {
+                "title": "Goles a Favor vs Partidos Ganados por Equipo",
+                "showTitle": true
+              },
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_goles_favor)",
+                  "displayName": "Goles a Favor",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_victorias)",
+                  "displayName": "Partidos Ganados",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "nombre_equipo",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Equipo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 24,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "fa601404",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(goles_favor_por_partido)",
+                      "expression": "MEASURE(`goles_favor_por_partido`)"
+                    },
+                    {
+                      "name": "measure(goles_contra_por_partido)",
+                      "expression": "MEASURE(`goles_contra_por_partido`)"
+                    },
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "facet": {
+                "type": "wrap",
+                "fieldName": "temporada",
+                "header": {
+                  "hideTitle": true
+                },
+                "scale": {
+                  "type": "categorical"
+                }
+              },
+              "version": 3,
+              "frame": {
+                "title": "Goles a Favor vs Goles en Contra por Equipo",
+                "showTitle": true,
+                "showDescription": true,
+                "description": "Goles promedio por partido jugado"
+              },
+              "annotations": [
+                {
+                  "type": "horizontal-line",
+                  "encodings": {
+                    "y": {
+                      "dataValue": "1.75",
+                      "dataType": "DECIMAL"
+                    }
+                  }
+                },
+                {
+                  "type": "vertical-line",
+                  "encodings": {
+                    "x": {
+                      "dataValue": "1.75",
+                      "dataType": "DECIMAL"
+                    }
+                  }
+                }
+              ],
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(goles_favor_por_partido)",
+                  "displayName": "Goles a Favor",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(goles_contra_por_partido)",
+                  "displayName": "Goles en Contra",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "nombre_equipo",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Equipo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 38,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "d39f8a0d",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    },
+                    {
+                      "name": "measure(goles_favor_por_partido)",
+                      "expression": "MEASURE(`goles_favor_por_partido`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Goles a Favor por Temporada",
+                "showTitle": true,
+                "showDescription": true,
+                "description": "Promedio por partido"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "temporada",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "displayName": "Temporada",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(goles_favor_por_partido)",
+                  "axis": {
+                    "hideLabels": true,
+                    "hideGrid": true,
+                    "hideTitle": true
+                  },
+                  "displayName": "Promedio Goles",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "temporada",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": 2025,
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 8
+                        }
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "7f20a7c5",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    },
+                    {
+                      "name": "measure(porcentaje_victorias)",
+                      "expression": "MEASURE(`porcentaje_victorias`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "showTitle": true,
+                "title": "% Victorias por Temporada"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "temporada",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "displayName": "Temporada",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(porcentaje_victorias)",
+                  "axis": {
+                    "hideGrid": true,
+                    "hideLabels": true,
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "temporada",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": 2025,
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 8
+                        }
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 6,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "e6159dd8",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    },
+                    {
+                      "name": "pais_equipo",
+                      "expression": "`pais_equipo`"
+                    },
+                    {
+                      "name": "measure(total_equipos)",
+                      "expression": "MEASURE(`total_equipos`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "facet": {
+                "type": "wrap",
+                "fieldName": "temporada",
+                "layout": {
+                  "row": {
+                    "type": "count",
+                    "value": 2
+                  }
+                },
+                "header": {
+                  "hideTitle": true
+                },
+                "scale": {
+                  "type": "categorical"
+                }
+              },
+              "version": 3,
+              "frame": {
+                "title": "Total de Equipos Participantes por País",
+                "showTitle": true
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "pais_equipo",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_equipos)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true,
+                    "hideGrid": true,
+                    "labelAngle": 45
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "temporada",
+                  "legend": {
+                    "hide": true
+                  },
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": 2025,
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 8
+                        }
+                      }
+                    ]
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 12,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "65be67d0",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "posiciones_2024_2025",
+                  "fields": [
+                    {
+                      "name": "nombre_equipo",
+                      "expression": "`nombre_equipo`"
+                    },
+                    {
+                      "name": "measure(total_goles_contra)",
+                      "expression": "MEASURE(`total_goles_contra`)"
+                    },
+                    {
+                      "name": "measure(total_derrotas)",
+                      "expression": "MEASURE(`total_derrotas`)"
+                    },
+                    {
+                      "name": "temporada",
+                      "expression": "`temporada`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "facet": {
+                "type": "wrap",
+                "fieldName": "temporada",
+                "header": {
+                  "hideTitle": true
+                },
+                "scale": {
+                  "type": "categorical"
+                }
+              },
+              "version": 3,
+              "frame": {
+                "title": "Goles en Contra vs Partidos Perdidos por Equipo",
+                "showTitle": true
+              },
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(total_goles_contra)",
+                  "displayName": "Goles en Contra",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_derrotas)",
+                  "displayName": "Partidos Perdidos",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "nombre_equipo",
+                  "legend": {
+                    "hide": true
+                  },
+                  "displayName": "Equipo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 31,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "c9d966c9",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Comparación Temporadas 2024 vs 2025\n",
+                "\n",
+                "Esta sección compara los indicadores de la Championes League temporadas 2024 y 2025"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "text_conclusiones_2024_2025",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Conclusiones\n",
+                "\n",
+                "* Existe una pequeña baja en la eficiencia desde el año 2024 al 2025: mayor cantidad de goles a favor por partido pero una disminución en el % de victorias.\n",
+                "* Los goles a favor promedios por partido se mantienen entre las temporadas. Sin embargo, se observa un fuerte retroceso del Barcelo y un gran avance del Arsenal.\n",
+                "* Las grandes ligas concentran los equipos participantes del torneo: Alemania, Italia, España e Inglaterra. Este ultimo presenta un mayor predominio en la temporada 2025, consolidándose como la liga top del momento.\n",
+                "* Los equipos de Inglaterra se posicionan como los dominantes del torneo en ambas temporadas liderando el ranking % de victorias y de puntos obtenidos.\n",
+                "* Existe una correlacion clara entre los resultados de los partidos y los goles marcados o recibidos: mayor capacidad goleadora se traduce en mas victorias, sin embargo, la solidez defensiva tambien es de gran importancia a la hora de definir los partidos.\n",
+                "* Se observa una transicion en la tactica de juego entre las temporadas: en 2025 hay equipos mas ofensivos con mayor capacidad goleadora, sin embargo, descuidan la defensa y son propensos a recibir mas goles.\n",
+                "* Los equipos exitosos demuestran que el balance entre una defensa sólida y un fuerte poder de ataque es la clave del éxito en este tipo de torneos."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 45,
+            "width": 12,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "locale": "es-AR",
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#F5F7FA",
+        "dark": "#1A1D23"
+      },
+      "widgetBackgroundColor": {
+        "light": "#FFFFFF",
+        "dark": "#252A31"
+      },
+      "widgetBorderColor": {
+        "light": "#E5E7EB",
+        "dark": "#3A3F47"
+      },
+      "fontColor": {
+        "light": "#1A1A1A",
+        "dark": "#E8E8E8"
+      },
+      "selectionColor": {
+        "light": "#3B82F6",
+        "dark": "#60A5FA"
+      },
+      "visualizationColors": [
+        "#3B82F6",
+        "#10B981",
+        "#F59E0B",
+        "#EF4444",
+        "#8B5CF6",
+        "#EC4899",
+        "#14B8A6",
+        "#F97316",
+        "#06B6D4",
+        "#6366F1"
+      ],
+      "widgetHeaderAlignment": "LEFT",
+      "fontFamily": "Inter",
+      "widgetPadding": 16,
+      "widgetMargin": 12,
+      "widgetCornerRadius": 8,
+      "widgetShadow": 10,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Inter",
+          "fontColor": {
+            "light": "#1A1A1A",
+            "dark": "#E8E8E8"
+          },
+          "fontSize": 13,
+          "fontWeight": 400
+        },
+        "widgetTitle": {
+          "fontFamily": "Inter",
+          "textCase": "TEXT_CASE_UNSPECIFIED",
+          "fontColor": {
+            "light": "#0A0A0A",
+            "dark": "#FFFFFF"
+          },
+          "fontSize": 15,
+          "fontWeight": 600
+        },
+        "widgetDescription": {
+          "fontFamily": "Inter",
+          "fontColor": {
+            "light": "#666666",
+            "dark": "#999999"
+          },
+          "fontSize": 12,
+          "fontWeight": 400
+        },
+        "fieldTitle": {
+          "fontFamily": "Inter",
+          "textCase": "TEXT_CASE_UPPERCASE",
+          "fontColor": {
+            "light": "#4A4A4A",
+            "dark": "#AAAAAA"
+          },
+          "fontSize": 11,
+          "fontWeight": 500
+        },
+        "fieldValue": {
+          "fontFamily": "Inter",
+          "fontColor": {
+            "light": "#1A1A1A",
+            "dark": "#E8E8E8"
+          },
+          "fontSize": 13,
+          "fontWeight": 500
+        }
+      },
+      "gridLineColor": {
+        "light": "#E5E7EB",
+        "dark": "#374151"
+      },
+      "axisLineColor": {
+        "light": "#D1D5DB",
+        "dark": "#4B5563"
+      }
+    },
+    "applyModeEnabled": false
+  }
+}
